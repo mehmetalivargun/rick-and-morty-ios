@@ -8,29 +8,25 @@
 import UIKit
 
 final class RMCharacterViewController: UIViewController {
+    
+    private let characterListView = CharacterListView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Characters"
         view.backgroundColor = .systemBackground
-
-
-        RMService.shared.execute(.listOfCharacters, expecting: RMGetAllCharactersResponse.self) { result in
-            switch result{
-            case .success(let model):
-                print("Modellerim Var")
-                print("total" + String(model.info.count.description))
-                print("Page Result count" + String(model.info.pages))
-                break
-            case .failure(let error):
-                print(String(describing: error ))
-                break
-            }
-        }
-        
-        // Do any additional setup after loading the view.
+        setUpView()
     }
     
+    private func setUpView(){
+        view.addSubview(characterListView)
+        NSLayoutConstraint.activate([
+            characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            characterListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
+        ])
 
+    }
 
 }
