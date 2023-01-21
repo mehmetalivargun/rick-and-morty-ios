@@ -14,8 +14,20 @@ final class RMCharacterViewController: UIViewController {
         self.title = "Characters"
         view.backgroundColor = .systemBackground
 
-        let request = RMRequest(endpoint: .character)
-        print(request.url)
+
+        RMService.shared.execute(.listOfCharacters, expecting: RMGetAllCharactersResponse.self) { result in
+            switch result{
+            case .success(let model):
+                print("Modellerim Var")
+                print("total" + String(model.info.count.description))
+                print("Page Result count" + String(model.info.pages))
+                break
+            case .failure(let error):
+                print(String(describing: error ))
+                break
+            }
+        }
+        
         // Do any additional setup after loading the view.
     }
     
